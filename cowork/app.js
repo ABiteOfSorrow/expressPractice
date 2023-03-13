@@ -4,6 +4,9 @@ const app = express();
 
 const members = require('./members');
 
+// if there is a json data in request's body, this middleware will set property of request body with json 
+app.use(express.json());
+
 // ...?query=value;
 app.get('/api/members', (req, res) => {
     //const team = req.query.team;
@@ -30,6 +33,14 @@ app.get('/api/members/:id', (req, res) => {
         res.status(404).send({ message : 'There is no such member' });
     }
 });
+
+app.post('/api/members', (req, res) => {
+    const newMember = req.body;
+    members.push(newMember);
+    res.send(newMember);
+    console.log(req.body);
+  });
+
 
 app.listen(3000, () => {
     console.log('Server is running...');
