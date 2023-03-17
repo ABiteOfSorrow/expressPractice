@@ -41,6 +41,21 @@ app.post('/api/members', (req, res) => {
     console.log(req.body);
   });
 
+app.put('/api/members/:id', (req, res) => {
+    const { id } = req.params;
+    
+    let newInfo = req.body;
+    let member = members.find((m) => m.id === Number(id));
+
+    if (member) {
+        Object.keys(newInfo).forEach((prop) => {
+            member[prop] = newInfo[prop];
+        });
+        res.send(member);
+    } else {
+        res.status(404).send({ message: 'There is no member with the id!'});
+    }
+})
 
 app.listen(3000, () => {
     console.log('Server is running...');
